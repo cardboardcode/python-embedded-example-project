@@ -37,7 +37,6 @@ ExternalProject_Add(PYBIND
 set(PYBIND_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/libs/pybind11/include)
 
 # Build main.cpp
-message(AUTHOR_WARNING "SOURCES = ${SOURCES}")
 add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 target_link_libraries(${PROJECT_NAME} ${CPYTHON_LIBRARY})
 

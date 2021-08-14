@@ -1,6 +1,6 @@
 # Python Embedded Example Project
 
-This is an example project using mebedded **[python 3.8](https://github.com/python/cpython)** in C++ console application using CMake. This example project also contains **[pybind11](https://github.com/pybind/pybind11)** library for easy binding between C++ and python. 
+This is an example project using mebedded **[python 3.8](https://github.com/python/cpython)** in C++ console application using CMake. This example project also contains **[pybind11](https://github.com/pybind/pybind11)** library for easy binding between C++ and python.
 
 Tested on Windows 10 with Visual Studio 2013, 2015, and 2017 (both x86 and x64). Also tested on Ubuntu with GCC (x64).
 
@@ -10,7 +10,7 @@ Tested on Windows 10 with Visual Studio 2013, 2015, and 2017 (both x86 and x64).
 
 Normally, you have a python installed in your system and then you can launch python scripts from command line. What if you want to create C++ application, but want to use python scripts (for example as modding for games)? One option is to let the user install python on their system and then install your app. No problem there, except, you are forcing the user to modify their system. Additonally, you can never guarantee that the user will install the specific python version (2.7 or 3.8) you require. Even if all of that is sorted out, the python that will get run will probably need third party packages (or you need to explicitly disable some packages), this can't be done easily.
 
-What if we can embed entire python in C++ executable? This way, the user won't have to install python on their system nor additional dependencies. Everything will be bundled up in the executable. 
+What if we can embed entire python in C++ executable? This way, the user won't have to install python on their system nor additional dependencies. Everything will be bundled up in the executable.
 
 This project comes with cpython 3.8 (as a git submodule) and pybind11. Once you build the project, your build folder will look like this:
 
@@ -40,8 +40,8 @@ Visual Studio 2013 (or newer) or Linux with GCC. MinGW is sadly not supported, a
 Don't forget to initialise and update the submodules! The cpython is +200MB so it may take some time to during `git submodule update`.
 
 ```
-git clone https://github.com/matusnovak/python-embedded-example-project 
-cd python-embedded-example-project 
+git clone https://github.com/matusnovak/python-embedded-example-project
+cd python-embedded-example-project
 git submodule init
 git submodule update --progress
 ```
@@ -51,7 +51,7 @@ git submodule update --progress
 **Please note:** that you have to explicitly specify `CMAKE_BUILD_TYPE`. If you specify Debug, then you must use Debug in your Visual Studio. You won't be able to change to Release using the dropdown list in the main menu. Python will be build using the `CMAKE_BUILD_TYPE` flag regarding the chosen configuration in Visual Studio. To change from Debug to Release, re-run the cmake and set the `CMAKE_BUILD_TYPE` to Release.
 
 ```
-cd python-embedded-example-project 
+cd python-embedded-example-project
 mkdir build
 cd build
 cmake .. -G "Visual Studio 15 2017" -DCMAKE_BUILD_TYPE=Debug
@@ -68,8 +68,8 @@ Build the PythonEmbeddedExample and then run the `PythonEmbeddedExample.exe` fro
 
 ## Build using GCC on Linux
 
-```
-cd python-embedded-example-project 
+```bash
+cd python-embedded-example-project
 mkdir build
 cd build
 cmake .. -DCMAKE_BUILD_TYPE=Debug
@@ -77,11 +77,26 @@ cmake .. -DCMAKE_BUILD_TYPE=Debug
 
 Then build the example by running:
 
-```
+```bash
 make
 ```
 
 The `PythonEmbeddedExample` executable will be generated.
+
+## Run on Linux
+
+```bash
+# Exporting the following environment variable is avoid the error attached below.
+export PYTHONHOME=/usr/bin/python
+./PythonEmbeddedExample
+```
+
+Execution Warning encountered as follows:
+```bash
+Could not find platform independent libraries <prefix>
+Could not find platform dependent libraries <exec_prefix>
+Consider setting $PYTHONHOME to <prefix>[:<exec_prefix>]
+```
 
 ## Changing python version
 

@@ -5,17 +5,9 @@ project (PythonEmbeddedExample)
 # Check for C++11
 set (CMAKE_CXX_STANDARD 11)
 
-# Specify build type
-if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE "Debug")
-endif()
+set(CMAKE_BUILD_TYPE "Debug")
 set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "RelWithDebInfo" "MinSizeRel")
-
-if (CMAKE_BUILD_TYPE MATCHES "Debug")
-  set(CPYTHON_BUILD_TYPE Debug)
-else ()
-  set(CPYTHON_BUILD_TYPE Release)
-endif()
+set(CPYTHON_BUILD_TYPE Debug)
 
 # Add the cpython as an external project that will be included in the build
 ExternalProject_Add(CPYTHON
@@ -68,3 +60,28 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${PYBIND_INCLUDE_DIR})
 
 # On MSVC build, the python library is automatically linked (crazy I know)
 target_link_libraries(${PROJECT_NAME} ${CPYTHON_LIBRARY})
+
+
+# Copy Python DLL to the build folder if different
+add_custom_command(
+  TARGET ${PROJECT_NAME}
+  POST_BUILD
+  COMMAND ${CMAKE_COMMAND}
+  -E copy_if_different ${CPYTHON_BIN} $<TARGET_FILE_DIR:${PROJECT_NAME}>
+)
+
+# Copy our python sources to the build folder
+add_custom_command(
+  TARGET ${PROJECT_NAME}
+  POST_BUILD
+  COMMAND ${CMAKE_COMMAND}
+  -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/src/app $<TARGET_FILE_DIR:${PROJECT_NAME}>/app
+)
+
+# Copy the Python stdlib into the build folder (needed by the embedded python)
+add_custom_command(
+  TARGET ${PROJECT_NAME}
+  POST_BUILD
+  COMMAND ${CMAKE_COMMAND}
+  -E copy_directory ${CPYTHON_STDLIB_DIR} $<TARGET_FILE_DIR:${PROJECT_NAME}>/lib
+)

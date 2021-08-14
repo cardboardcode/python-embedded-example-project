@@ -27,7 +27,6 @@ ExternalProject_Add(CPYTHON
   TEST_COMMAND ""
 )
 
-
 set(CPYTHON_STDLIB_DIR ${CMAKE_SOURCE_DIR}/libs/cpython/Lib)
 set(CPYTHON_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/libs/cpython/Include ${CMAKE_SOURCE_DIR}/libs/cpython)
 set(CPYTHON_LIBRARY_DIR ${CMAKE_SOURCE_DIR}/libs/cpython)
@@ -49,13 +48,12 @@ set(PYBIND_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/libs/pybind11/include)
 
 # Source and header files
 FILE(GLOB_RECURSE SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
-FILE(GLOB_RECURSE HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h)
 
 # Linking directories
 link_directories(${CPYTHON_LIBRARY_DIR})
 
 # The target executable
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+add_executable(${PROJECT_NAME} ${SOURCES})
 
 # Add macros
 target_compile_definitions(${PROJECT_NAME} PRIVATE NOMINMAX=1)
@@ -70,27 +68,3 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${PYBIND_INCLUDE_DIR})
 
 # On MSVC build, the python library is automatically linked (crazy I know)
 target_link_libraries(${PROJECT_NAME} ${CPYTHON_LIBRARY})
-
-# Copy Python DLL to the build folder if different
-add_custom_command(
-  TARGET ${PROJECT_NAME}
-  POST_BUILD
-  COMMAND ${CMAKE_COMMAND}
-  -E copy_if_different ${CPYTHON_BIN} $<TARGET_FILE_DIR:${PROJECT_NAME}>
-)
-
-# Copy our python sources to the build folder
-add_custom_command(
-  TARGET ${PROJECT_NAME}
-  POST_BUILD
-  COMMAND ${CMAKE_COMMAND}
-  -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/src/app $<TARGET_FILE_DIR:${PROJECT_NAME}>/app
-)
-
-# Copy the Python stdlib into the build folder (needed by the embedded python)
-add_custom_command(
-  TARGET ${PROJECT_NAME}
-  POST_BUILD
-  COMMAND ${CMAKE_COMMAND}
-  -E copy_directory ${CPYTHON_STDLIB_DIR} $<TARGET_FILE_DIR:${PROJECT_NAME}>/lib
-)

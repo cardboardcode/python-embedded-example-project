@@ -5,6 +5,8 @@ project(PythonEmbeddedExample)
 # Check for C++11
 set(CMAKE_CXX_STANDARD 11)
 
+set(CMAKE_BUILD_TYPE "Release")
+
 # CYTHON
 ExternalProject_Add(CPYTHON
     DOWNLOAD_COMMAND ""

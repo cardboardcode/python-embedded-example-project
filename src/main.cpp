@@ -31,6 +31,10 @@ int main(int argc, char** argv) {
     const auto pythonHome = exeDir + L"/lib";
     const auto pythonPath = exeDir + L"/lib:" + exeDir + L"/app";
 
+    std::wcout << "[ exeDir ]" << std::endl << exeDir << std::endl;
+    std::wcout << "[ pythonHome ]" << std::endl << pythonHome << std::endl;
+    std::wcout << "[ pythonPath ]" << std::endl << pythonPath << std::endl;
+
     // Initialize python
     Py_OptimizeFlag = 1;
     Py_SetProgramName(L"PythonEmbeddedExample");

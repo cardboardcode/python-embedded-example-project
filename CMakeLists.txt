@@ -57,12 +57,12 @@ add_custom_command(
 )
 
 # Copy our python sources to the build folder
-add_custom_command(
-  TARGET ${PROJECT_NAME}
-  POST_BUILD
-  COMMAND ${CMAKE_COMMAND}
-  -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/src/app $<TARGET_FILE_DIR:${PROJECT_NAME}>/app
-)
+# add_custom_command(
+#   TARGET ${PROJECT_NAME}
+#   POST_BUILD
+#   COMMAND ${CMAKE_COMMAND}
+#   -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/src/app $<TARGET_FILE_DIR:${PROJECT_NAME}>/app
+# )
 
 # Copy the Python stdlib into the build folder (needed by the embedded python)
 add_custom_command(

@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
     // Get executable dir and build python PATH variable
     const auto exeDir = getExecutableDir();
     const auto pythonHome = exeDir + L"/lib";
-    const auto pythonPath = exeDir + L"/lib:" + exeDir + L"/app";
+    const auto pythonPath = exeDir + L"/lib:" + exeDir + L"/../src/app";
 
     std::wcout << "[ exeDir ]" << std::endl << exeDir << std::endl;
     std::wcout << "[ pythonHome ]" << std::endl << pythonHome << std::endl;
